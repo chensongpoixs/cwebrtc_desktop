@@ -14,24 +14,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="conductor.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="defaults.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main_wnd.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="peer_connection_client.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test\platform_video_capturer.cc">
       <Filter>test</Filter>
     </ClCompile>
@@ -44,23 +26,29 @@
     <ClCompile Include="test\field_trial.cc">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="conductor.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="defaults.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="desktop_capture.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="desktop_capture_source.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_wnd.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="peer_connection_client.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="conductor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="defaults.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="flag_defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="main_wnd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="peer_connection_client.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="test\platform_video_capturer.h">
       <Filter>test</Filter>
     </ClInclude>
@@ -72,6 +60,27 @@
     </ClInclude>
     <ClInclude Include="test\field_trial.h">
       <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="conductor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="defaults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="desktop_capture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="desktop_capture_source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flag_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_wnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="peer_connection_client.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

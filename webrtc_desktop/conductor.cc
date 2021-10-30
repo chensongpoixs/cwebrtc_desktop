@@ -43,6 +43,9 @@
 #include "rtc_base/rtc_certificate_generator.h"
 #include "rtc_base/strings/json.h"
 #include "test/vcm_capturer.h"
+#include "desktop_capture.h"
+#include "desktop_capture_source.h"
+
 
 namespace {
 // Names used for a IceCandidate JSON object.
@@ -70,7 +73,7 @@ class DummySetSessionDescriptionObserver
 class CapturerTrackSource : public webrtc::VideoTrackSource {
  public:
   static rtc::scoped_refptr<CapturerTrackSource> Create() {
-    const size_t kWidth = 640;
+    /*const size_t kWidth = 640;
     const size_t kHeight = 480;
     const size_t kFps = 30;
     std::unique_ptr<webrtc::test::VcmCapturer> capturer;
@@ -87,23 +90,51 @@ class CapturerTrackSource : public webrtc::VideoTrackSource {
         return new
             rtc::RefCountedObject<CapturerTrackSource>(std::move(capturer));
       }
-    }
-
-    return nullptr;
+    }*/
+	  std::unique_ptr<webrtc_demo::DesktopCapture> capturer(webrtc_demo::DesktopCapture::Create(25,0));
+	  if (capturer) 
+	  {
+		  capturer->StartCapture();
+		  return new
+			  rtc::RefCountedObject<CapturerTrackSource>(std::move(capturer));
+	  }
+	  return nullptr;
   }
 
  protected:
   explicit CapturerTrackSource(
-      std::unique_ptr<webrtc::test::VcmCapturer> capturer)
+      std::unique_ptr<webrtc_demo::DesktopCapture> capturer)
       : VideoTrackSource(/*remote=*/false), capturer_(std::move(capturer)) {}
 
  private:
   rtc::VideoSourceInterface<webrtc::VideoFrame>* source() override {
     return capturer_.get();
   }
-  std::unique_ptr<webrtc::test::VcmCapturer> capturer_;
+  //std::unique_ptr<webrtc::test::VcmCapturer> capturer_;
+  std::unique_ptr<webrtc_demo::DesktopCapture> capturer_;
 };
-
+//////////////////////////////////////////////////////////////////////////////
+//class DesktopCaptureSource
+//	: public rtc::VideoSourceInterface<webrtc::VideoFrame> {
+//public:
+//	DesktopCaptureSource() {}
+//	~DesktopCaptureSource() override {}
+//
+//	void AddOrUpdateSink(rtc::VideoSinkInterface<webrtc::VideoFrame>* sink,
+//		const rtc::VideoSinkWants& wants) override;
+//
+//	void RemoveSink(rtc::VideoSinkInterface<webrtc::VideoFrame>* sink) override;
+//
+//protected:
+//	// Notify sinkes
+//	void OnFrame(const webrtc::VideoFrame& frame);
+//
+//private:
+//	void UpdateVideoAdapter();
+//
+//	rtc::VideoBroadcaster broadcaster_;
+//	cricket::VideoAdapter video_adapter_;
+//};
 }  // namespace
 
 Conductor::Conductor(PeerConnectionClient* client, MainWindow* main_wnd)
@@ -144,7 +175,7 @@ bool Conductor::InitializePeerConnection() {
     DeletePeerConnection();
     return false;
   }
-
+  // 设置SDP  ->马流是否加密哈DTLS
   if (!CreatePeerConnection(/*dtls=*/true)) {
     main_wnd_->MessageBox("Error", "CreatePeerConnection failed", true);
     DeletePeerConnection();
@@ -175,12 +206,12 @@ bool Conductor::CreatePeerConnection(bool dtls) {
   RTC_DCHECK(!peer_connection_);
 
   webrtc::PeerConnectionInterface::RTCConfiguration config;
-  config.sdp_semantics = webrtc::SdpSemantics::kUnifiedPlan;
-  config.enable_dtls_srtp = dtls;
+  config.sdp_semantics = webrtc::SdpSemantics::kUnifiedPlan; //这个 
+  config.enable_dtls_srtp = dtls; //是否加密
   webrtc::PeerConnectionInterface::IceServer server;
   server.uri = GetPeerConnectionString();
   config.servers.push_back(server);
-  ///////////////////// peer conection -->>>>>>>[这里可能也是注册回调数据的接口的 好家伙 藏的太深哈 PROXY_METHOD4]/////////////////////////////////////
+
   peer_connection_ = peer_connection_factory_->CreatePeerConnection(
       config, nullptr, nullptr, this);
   return peer_connection_ != nullptr;
@@ -207,13 +238,11 @@ void Conductor::EnsureStreamingUI() {
 // PeerConnectionObserver implementation.
 //
 
-void Conductor::OnAddTrack(
-    rtc::scoped_refptr<webrtc::RtpReceiverInterface> receiver,
+void Conductor::OnAddTrack( rtc::scoped_refptr<webrtc::RtpReceiverInterface> receiver,
     const std::vector<rtc::scoped_refptr<webrtc::MediaStreamInterface>>&
         streams) {
   RTC_LOG(INFO) << __FUNCTION__ << " " << receiver->id();
-  main_wnd_->QueueUIThreadCallback(NEW_TRACK_ADDED,
-                                   receiver->track().release());
+  main_wnd_->QueueUIThreadCallback(NEW_TRACK_ADDED, receiver->track().release());
 }
 
 void Conductor::OnRemoveTrack(
@@ -283,10 +312,12 @@ void Conductor::OnPeerDisconnected(int id) {
   }
 }
 
-void Conductor::OnMessageFromPeer(int peer_id, const std::string& message) {
+void Conductor::OnMessageFromPeer(int peer_id, const std::string& message) 
+{
+
   RTC_DCHECK(peer_id_ == peer_id || peer_id_ == -1);
   RTC_DCHECK(!message.empty());
-
+  //被动接到对方offer 的SDP的信息哈  ^_^ ^_^	^_^ 
   if (!peer_connection_.get()) {
     RTC_DCHECK(peer_id_ == -1);
     peer_id_ = peer_id;
@@ -351,10 +382,9 @@ void Conductor::OnMessageFromPeer(int peer_id, const std::string& message) {
     peer_connection_->SetRemoteDescription(
         DummySetSessionDescriptionObserver::Create(),
         session_description.release());
-    if (type == webrtc::SdpType::kOffer) 
-	{
-		// 这边webrtc把对方的媒体流的接口回调类注册^_^ -->> 好好看看
-      peer_connection_->CreateAnswer(this, webrtc::PeerConnectionInterface::RTCOfferAnswerOptions());
+    if (type == webrtc::SdpType::kOffer) {
+      peer_connection_->CreateAnswer(
+          this, webrtc::PeerConnectionInterface::RTCOfferAnswerOptions());
     }
   } else {
     std::string sdp_mid;
@@ -456,6 +486,7 @@ void Conductor::AddTracks() {
       RTC_LOG(LS_ERROR) << "Failed to add video track to PeerConnection: "
                         << result_or_error.error().message();
     }
+	
   } else {
     RTC_LOG(LS_ERROR) << "OpenVideoCaptureDevice failed";
   }
@@ -522,7 +553,8 @@ void Conductor::UIThreadCallback(int msg_id, void* data) {
       auto* track = reinterpret_cast<webrtc::MediaStreamTrackInterface*>(data);
       if (track->kind() == webrtc::MediaStreamTrackInterface::kVideoKind) {
         auto* video_track = static_cast<webrtc::VideoTrackInterface*>(track);
-        main_wnd_->StartRemoteRenderer(video_track); // 设置对方的视频流显示的屏幕上鸭
+		// 好家伙  终于找到你 哈哈 ^_^
+        main_wnd_->StartRemoteRenderer(video_track);
       }
       track->Release();
       break;
@@ -543,9 +575,8 @@ void Conductor::UIThreadCallback(int msg_id, void* data) {
 
 void Conductor::OnSuccess(webrtc::SessionDescriptionInterface* desc) 
 {
-  
-  peer_connection_->SetLocalDescription(
-      DummySetSessionDescriptionObserver::Create(), desc);
+  // 得到本地视频基本信息 先设置本地 SDP 鸭
+  peer_connection_->SetLocalDescription(DummySetSessionDescriptionObserver::Create(), desc);
 
   std::string sdp;
   desc->ToString(&sdp);
@@ -563,8 +594,8 @@ void Conductor::OnSuccess(webrtc::SessionDescriptionInterface* desc)
 
   Json::StyledWriter writer;
   Json::Value jmessage;
-  jmessage[kSessionDescriptionTypeName] =
-      webrtc::SdpTypeToString(desc->GetType());
+  jmessage[kSessionDescriptionTypeName] = webrtc::SdpTypeToString(desc->GetType());
+  //jmessage["offer-loopback"] = webrtc::SdpTypeToString(desc->GetType());
   jmessage[kSessionDescriptionSdpName] = sdp;
   SendMessage(writer.write(jmessage));
 }

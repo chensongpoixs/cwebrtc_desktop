@@ -58,7 +58,7 @@ int PASCAL wWinMain(HINSTANCE instance,
 
   rtc::InitializeSSL();
   PeerConnectionClient client;
- rtc::scoped_refptr<Conductor> conductor(
+  rtc::scoped_refptr<Conductor> conductor(
       new rtc::RefCountedObject<Conductor>(&client, &wnd));
 
   // Main loop.
@@ -72,13 +72,13 @@ int PASCAL wWinMain(HINSTANCE instance,
   }
 
   if (conductor->connection_active() || client.is_connected()) {
-	  while ((conductor->connection_active() || client.is_connected()) &&
-		  (gm = ::GetMessage(&msg, NULL, 0, 0)) != 0 && gm != -1) {
-		  if (!wnd.PreTranslateMessage(&msg)) {
-			  ::TranslateMessage(&msg);
-			  ::DispatchMessage(&msg);
-		  }
-	  }
+    while ((conductor->connection_active() || client.is_connected()) &&
+           (gm = ::GetMessage(&msg, NULL, 0, 0)) != 0 && gm != -1) {
+      if (!wnd.PreTranslateMessage(&msg)) {
+        ::TranslateMessage(&msg);
+        ::DispatchMessage(&msg);
+      }
+    }
   }
 
   rtc::CleanupSSL();

@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  Copyright 2012 The WebRTC Project Authors. All rights reserved.
  *
  *  Use of this source code is governed by a BSD-style license
@@ -8,8 +8,8 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-#ifndef EXAMPLES_PEERCONNECTION_CLIENT_CONDUCTOR_H_
-#define EXAMPLES_PEERCONNECTION_CLIENT_CONDUCTOR_H_
+#ifndef EXAMPLES_PEERCONNECTION_DESKTOP_CONDUCTOR_H_
+#define EXAMPLES_PEERCONNECTION_DESKTOP_CONDUCTOR_H_
 
 #include <deque>
 #include <map>
@@ -30,7 +30,7 @@ namespace cricket {
 class VideoRenderer;
 }  // namespace cricket
 
-class Conductor : public webrtc::PeerConnectionObserver,
+class Conductor : public webrtc::PeerConnectionObserver /*好玩东西给webrtc封装这个里面   */,
                   public webrtc::CreateSessionDescriptionObserver,
                   public PeerConnectionClientObserver,
                   public MainWndCallback {
@@ -64,6 +64,9 @@ class Conductor : public webrtc::PeerConnectionObserver,
 
   void OnSignalingChange(
       webrtc::PeerConnectionInterface::SignalingState new_state) override {}
+
+
+  // 好家伙  webrtc封装太好 ^_^  接口定义 PeerConnectionObserver
   void OnAddTrack(
       rtc::scoped_refptr<webrtc::RtpReceiverInterface> receiver,
       const std::vector<rtc::scoped_refptr<webrtc::MediaStreamInterface>>&
@@ -131,4 +134,4 @@ class Conductor : public webrtc::PeerConnectionObserver,
   std::string server_;
 };
 
-#endif  // EXAMPLES_PEERCONNECTION_CLIENT_CONDUCTOR_H_
+#endif  // EXAMPLES_PEERCONNECTION_DESKTOP_CONDUCTOR_H_

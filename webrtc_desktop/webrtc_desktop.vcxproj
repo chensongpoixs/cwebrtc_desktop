@@ -151,8 +151,9 @@
   <ItemGroup>
     <ClCompile Include="conductor.cc" />
     <ClCompile Include="defaults.cc" />
+    <ClCompile Include="desktop_capture.cc" />
+    <ClCompile Include="desktop_capture_source.cc" />
     <ClCompile Include="main.cc" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="main_wnd.cc" />
     <ClCompile Include="peer_connection_client.cc" />
     <ClCompile Include="test\field_trial.cc" />
@@ -163,6 +164,8 @@
   <ItemGroup>
     <ClInclude Include="conductor.h" />
     <ClInclude Include="defaults.h" />
+    <ClInclude Include="desktop_capture.h" />
+    <ClInclude Include="desktop_capture_source.h" />
     <ClInclude Include="flag_defs.h" />
     <ClInclude Include="main_wnd.h" />
     <ClInclude Include="peer_connection_client.h" />
