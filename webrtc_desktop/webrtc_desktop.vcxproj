@@ -79,9 +79,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>D:\Work\cmedia_server\webrtc_google\src;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Work\cmedia_server\webrtc_google\src\out\test_vs_debug\;D:\Work\cmedia_server\webrtc_google\src\out\test_vs_debug\obj\rtc_base;D:\Work\cmedia_server\webrtc_google\src\out\test_vs_debug\obj\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>lib;lib/obj;lib/obj/rtc_base;$(LibraryPath)</LibraryPath>
     <ReferencePath>D:\Work\cmedia_server\webrtc_google\src;$(VC_ReferencesPath_x64);</ReferencePath>
-    <LibraryWPath>D:\Work\cmedia_server\webrtc_google\src\out\test_vs_debug\;$(LibraryWPath)</LibraryWPath>
+    <LibraryWPath>$(LibraryWPath)</LibraryWPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\Work\cmedia_server\webrtc_google\src;$(IncludePath)</IncludePath>
