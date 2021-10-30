@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{f8695263-08cd-4e73-9abe-052fb3bd341e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conductor.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="defaults.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_wnd.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="peer_connection_client.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\platform_video_capturer.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\test_video_capturer.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\vcm_capturer.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\field_trial.cc">
+      <Filter>test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="conductor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="defaults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flag_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_wnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="peer_connection_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\platform_video_capturer.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\test_video_capturer.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\vcm_capturer.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\field_trial.h">
+      <Filter>test</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
